@@ -1,6 +1,9 @@
 package com.auth.api.controller;
 
+import com.auth.api.service.TokenService;
 import com.auth.api.usuario.DadosAutenticacao;
+import com.auth.api.usuario.DadosTokenJWT;
+import com.auth.api.usuario.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,12 +21,17 @@ public class AutenticacaoController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity efectuarLogin(@RequestBody @Valid DadosAutenticacao dados) {
-        var token = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
-        var autenticacao = manager.authenticate(token);
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
+        var autenticacao = manager.authenticate(authenticationToken);
 
-        return ResponseEntity.ok("Login efetuado com sucesso!");
+        var tokenJWT = tokenService.gerarToken((Usuario) autenticacao.getPrincipal());
+
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 
 }

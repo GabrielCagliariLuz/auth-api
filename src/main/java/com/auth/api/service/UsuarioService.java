@@ -3,7 +3,6 @@ package com.auth.api.service;
 import com.auth.api.usuario.DadosCadastroUsuario;
 import com.auth.api.usuario.Usuario;
 import com.auth.api.usuario.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UsuarioService {
 
-    @Autowired
-    private UsuarioRepository repository;
+    private final UsuarioRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UsuarioService(UsuarioRepository repository, PasswordEncoder passwordEncoder) {
+        this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
 
     @Transactional
     public Usuario cadastrar(DadosCadastroUsuario dados){
@@ -26,7 +28,7 @@ public class UsuarioService {
             throw new IllegalArgumentException("Este e-mail já está cadastrado.");
         }
         String senhaCriptografada = passwordEncoder.encode(dados.senha());
-        Usuario usuario = new Usuario(null, dados.nome(), dados.email(), senhaCriptografada);
+        Usuario usuario = new Usuario(dados, senhaCriptografada);
         return repository.save(usuario);
     }
 }

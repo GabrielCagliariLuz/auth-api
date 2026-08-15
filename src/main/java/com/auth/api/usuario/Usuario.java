@@ -57,10 +57,4 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public Usuario(DadosCadastroUsuario dados) {
-        this.nome = dados.nome();
-        this.email = dados.email();
-        this.senha = dados.senha();
-    }
 }

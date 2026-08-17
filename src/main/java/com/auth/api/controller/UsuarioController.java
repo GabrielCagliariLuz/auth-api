@@ -1,6 +1,7 @@
 package com.auth.api.controller;
 
 import com.auth.api.service.UsuarioService;
+import com.auth.api.usuario.DadosAtualizacaoUsuario;
 import com.auth.api.usuario.DadosCadastroUsuario;
 import com.auth.api.usuario.DadosDetalhamentoUsuario;
 import com.auth.api.usuario.Usuario;
@@ -16,8 +17,11 @@ import java.net.URI;
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
-    @Autowired
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService){
+        this.usuarioService = usuarioService;
+    }
 
     @PostMapping
     public ResponseEntity<DadosDetalhamentoUsuario> cadastrar(
@@ -26,12 +30,27 @@ public class UsuarioController {
     ) {
         Usuario usuario = usuarioService.cadastrar(dados);
         URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-
         return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(usuario));
     }
 
-    @GetMapping
-    public ResponseEntity<String> testarAutenticacao() {
-        return ResponseEntity.ok("Acesso autenticado com sucesso");
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoUsuario> detalhar(@PathVariable Long id){
+        DadosDetalhamentoUsuario usuario = usuarioService.buscarPorId(id);
+        return ResponseEntity.ok(usuario);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoUsuario> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid DadosAtualizacaoUsuario dados
+    ) {
+        DadosDetalhamentoUsuario usuarioAtualizado = usuarioService.atualizar(id, dados);
+        return ResponseEntity.ok(usuarioAtualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desativar(@PathVariable Long id) {
+        usuarioService.desativar(id);
+        return ResponseEntity.noContent().build();
     }
 }

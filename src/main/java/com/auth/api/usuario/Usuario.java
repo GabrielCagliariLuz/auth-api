@@ -36,6 +36,15 @@ public class Usuario implements UserDetails {
         this.ativo = true;
     }
 
+    public void atualizarInformacoes(DadosAtualizacaoUsuario dados){
+        if (dados.nome() != null && !dados.nome().isBlank()){
+            this.nome = dados.nome();
+        }
+        if (dados.email() != null && !dados.email().isBlank()){
+            this.email = dados.email();
+        }
+    }
+
     public void excluirLogico() {
         this.ativo = false;
     }

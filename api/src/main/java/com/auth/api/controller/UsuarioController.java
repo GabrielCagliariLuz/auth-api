@@ -6,7 +6,6 @@ import com.auth.api.usuario.DadosCadastroUsuario;
 import com.auth.api.usuario.DadosDetalhamentoUsuario;
 import com.auth.api.usuario.Usuario;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;

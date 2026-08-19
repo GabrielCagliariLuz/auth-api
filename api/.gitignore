@@ -1,0 +1,24 @@
+# ===============================
+# IDEs & Editores de Código
+# ===============================
+.idea/
+*.iml
+.vscode/
+*.swp
+.DS_Store
+
+# ===============================
+# Backend (Spring Boot / Maven)
+# ===============================
+api/target/
+api/.mvn/wrapper/maven-wrapper.jar
+api/*.class
+api/*.log
+
+# ===============================
+# Frontend (Web Vanilla / Node)
+# ===============================
+frontend/.vscode/
+frontend/node_modules/
+frontend/dist/
+frontend/*.log

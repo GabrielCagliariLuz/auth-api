@@ -11,13 +11,13 @@
 
 .logo {
     color: var(--primary-blue);
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 }
 
 .logo-text {
     font-weight: bold;
     color: var(--text-primary);
-    font-size: 1.25rem;
+    font-size: 2rem;
 }
 
 .container {
@@ -101,7 +101,7 @@
     right: 1rem;
     cursor: pointer;
     color: var(--text-secondary);
-    transition: color 0.3 ease;
+    transition: color 0.3s ease;
 }
 
 .toggle-password:hover {
@@ -117,7 +117,7 @@
     padding: 0.85rem;
     cursor: pointer;
     margin-top: 0.75rem;
-    transition: background-color 0.2 ease;
+    transition: background-color 0.2s ease;
 }
 
 .btn-primary:hover {

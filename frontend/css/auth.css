@@ -1,5 +1,20 @@
 @import url(global.css);
 
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    position: relative;
+}
+
+.header {
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
 .logo-container {
     display: flex;
     flex-direction: row;
@@ -21,11 +36,11 @@
 }
 
 .container {
+    width: 100%;
+    max-width: 540px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
 }
 
 .form-header {
@@ -47,7 +62,7 @@
 
 .form-card {
     width: 100%;
-    max-width: 440px;
+    max-width: 540px;
     background-color: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 16px;
@@ -148,3 +163,4 @@
 .form-footer a span:hover {
     text-decoration: underline;
 }
+

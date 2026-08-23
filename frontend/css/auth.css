@@ -1,0 +1,150 @@
+@import url(global.css);
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding-top: 1.75rem;
+    gap: 0.5rem;
+}
+
+.logo {
+    color: var(--primary-blue);
+    font-size: 1.25rem;
+}
+
+.logo-text {
+    font-weight: bold;
+    color: var(--text-primary);
+    font-size: 1.25rem;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+}
+
+.form-header {
+    padding-top: 1.5em;
+    padding-bottom: 1.5rem;
+}
+
+.title-form-header {
+    text-align: center;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.paragraph-form-header {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 440px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.25rem;
+}
+
+.text-field {
+    color: var(--text-secondary);
+    font-weight: bold;
+    font-size: 0.875rem;
+    margin-bottom: 0.4rem;
+}
+
+.field input {
+    width: 100%;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.field input:focus {
+    border-color: var(--border-focus);
+}
+
+.field input::placeholder {
+    color: var(--text-muted);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-wrapper input {
+    padding-right: 2.5rem;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3 ease;
+}
+
+.toggle-password:hover {
+    color: var(--text-primary);
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--primary-blue);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 10px;
+    padding: 0.85rem;
+    cursor: pointer;
+    margin-top: 0.75rem;
+    transition: background-color 0.2 ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-blue-hover);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+.form-footer a {
+    text-decoration: none;
+}
+
+.form-footer a span {
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.form-footer a span:hover {
+    text-decoration: underline;
+}

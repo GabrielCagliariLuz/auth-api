@@ -10,12 +10,12 @@ export function exibirMensagem(elementoAlvo, texto, tipo = 'erro') {
     elementoAlvo.style.textAlign = 'center';
 
     if (tipo === 'erro') {
-        elementoAlvo.style.backgroundColor = 'rgba(239, 68, 68, 0.15)';
-        elementoAlvo.style.color = '#FCA5A5';
+        elementoAlvo.style.backgroundColor = '#EF4444';
+        elementoAlvo.style.color = '#FFFFFF';
         elementoAlvo.style.border = '1px solid rgba(239, 68, 68, 0.3)';
     } else {
-        elementoAlvo.style.backgroundColor = 'rgba(16, 185, 129, 0.15)';
-        elementoAlvo.style.color = '#6EE7B7';
+        elementoAlvo.style.backgroundColor = '#10B981';
+        elementoAlvo.style.color = '#ffffff';
         elementoAlvo.style.border = '1px solid rgba(16, 185, 129, 0.3)';
     }
 }

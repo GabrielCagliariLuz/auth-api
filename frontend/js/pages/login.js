@@ -45,13 +45,13 @@ formLogin.addEventListener('submit', async (event) =>{
             method: 'POST',
             body: JSON.stringify({ email, senha })
         });
-        authStorage.salvarSessao(response.token, response.usuario || { email });
+        authStorage.salvarSessao(response.token, response.usuario);
 
         exibirMensagem(feedbackContainer, 'Login realizado com sucesso! Redirecionando...', 'sucesso');
 
         setTimeout(() => {
             window.location.href = './perfil.html';
-        }, 1200);
+        }, 1000);
 
     } catch (error) {
         const mensagem = error.message.includes('401') || error.message.includes('403')

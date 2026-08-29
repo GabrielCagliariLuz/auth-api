@@ -1,10 +1,29 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+# ==========================================
+# 1. Compilação e Artefatos do Backend (Maven/Java)
+# ==========================================
+api/target/
+**/target/
+*.class
 
-### STS ###
+# Logs
+*.log
+api/logs/
+
+# ==========================================
+# 2. Configurações de IDEs e Editores
+# ==========================================
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# Eclipse / STS
 .apt_generated
 .classpath
 .factorypath
@@ -13,21 +32,17 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
+# ==========================================
+# 3. Arquivos do Sistema Operacional
+# ==========================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
-.vscode/
+# ==========================================
+# 4. Segredos e Variáveis de Ambiente
+# ==========================================
+*.env
+*.env.local
+api/src/main/resources/application-local.properties

@@ -17,9 +17,8 @@ public class UsuarioService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Transactional
-    public Usuario cadastrar(DadosCadastroUsuario dados){
+    public DadosDetalhamentoUsuario cadastrar(DadosCadastroUsuario dados){
         if (!dados.senha().equals(dados.confirmarSenha())){
             throw new IllegalArgumentException("As senhas não coincidem");
         }
@@ -28,30 +27,29 @@ public class UsuarioService {
         }
         String senhaCriptografada = passwordEncoder.encode(dados.senha());
         Usuario usuario = new Usuario(dados, senhaCriptografada);
-        return repository.save(usuario);
+        repository.save(usuario);
+
+        return new DadosDetalhamentoUsuario(usuario);
     }
+
     @Transactional
     public DadosDetalhamentoUsuario atualizar(Long id, DadosAtualizacaoUsuario dados){
-        Usuario usuario = repository.findById(id)
+        Usuario usuario = repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com o ID: " + id));
-        if (!usuario.getEmail().equals(dados.email()) && repository.existsByEmail(dados.email())){
-            throw new IllegalArgumentException("Este e-mail já está cadastrado.");
-        }
-
         usuario.atualizarInformacoes(dados);
         return new DadosDetalhamentoUsuario(usuario);
     }
 
     @Transactional
     public void desativar(Long id) {
-        Usuario usuario = repository.findById(id)
+        Usuario usuario = repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário nao encontrado com o ID: "+ id));
         usuario.excluirLogico();
     }
 
     @Transactional(readOnly = true)
     public DadosDetalhamentoUsuario buscarPorId(Long id){
-        Usuario usuario = repository.findById(id)
+        Usuario usuario = repository.findByIdAndAtivoTrue(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário nao encontrado com o ID: "+ id));
         return new DadosDetalhamentoUsuario(usuario);
     }

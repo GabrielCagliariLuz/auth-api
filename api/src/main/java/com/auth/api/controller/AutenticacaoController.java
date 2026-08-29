@@ -2,6 +2,7 @@ package com.auth.api.controller;
 
 import com.auth.api.service.TokenService;
 import com.auth.api.usuario.DadosAutenticacao;
+import com.auth.api.usuario.DadosDetalhamentoUsuario;
 import com.auth.api.usuario.DadosTokenJWT;
 import com.auth.api.usuario.Usuario;
 import jakarta.validation.Valid;
@@ -29,9 +30,10 @@ public class AutenticacaoController {
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.email(), dados.senha());
         var autenticacao = manager.authenticate(authenticationToken);
 
-        var tokenJWT = tokenService.gerarToken((Usuario) autenticacao.getPrincipal());
+        var usuario = (Usuario) autenticacao.getPrincipal();
+        var tokenJWT = tokenService.gerarToken(usuario);
 
-        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT, new DadosDetalhamentoUsuario(usuario)));
     }
 
 }

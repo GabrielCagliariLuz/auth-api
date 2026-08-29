@@ -37,11 +37,8 @@ public class Usuario implements UserDetails {
     }
 
     public void atualizarInformacoes(DadosAtualizacaoUsuario dados){
-        if (dados.nome() != null && !dados.nome().isBlank()){
+        if (dados.nome() != null && !dados.nome().isBlank()) {
             this.nome = dados.nome();
-        }
-        if (dados.email() != null && !dados.email().isBlank()){
-            this.email = dados.email();
         }
     }
 

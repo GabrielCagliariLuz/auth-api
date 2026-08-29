@@ -4,7 +4,6 @@ import com.auth.api.service.UsuarioService;
 import com.auth.api.usuario.DadosAtualizacaoUsuario;
 import com.auth.api.usuario.DadosCadastroUsuario;
 import com.auth.api.usuario.DadosDetalhamentoUsuario;
-import com.auth.api.usuario.Usuario;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,15 +26,21 @@ public class UsuarioController {
             @RequestBody @Valid DadosCadastroUsuario dados,
             UriComponentsBuilder uriBuilder
     ) {
-        Usuario usuario = usuarioService.cadastrar(dados);
-        URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(new DadosDetalhamentoUsuario(usuario));
+        DadosDetalhamentoUsuario usuario = usuarioService.cadastrar(dados);
+        URI uri = uriBuilder.path("/usuarios/{id}").buildAndExpand(usuario.id()).toUri();
+        return ResponseEntity.created(uri).body(usuario);
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoUsuario> detalhar(@PathVariable Long id){
         DadosDetalhamentoUsuario usuario = usuarioService.buscarPorId(id);
         return ResponseEntity.ok(usuario);
+    }*/
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoUsuario> buscarPorId(@PathVariable Long id) {
+        DadosDetalhamentoUsuario dto = usuarioService.buscarPorId(id);
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")

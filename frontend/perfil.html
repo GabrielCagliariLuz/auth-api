@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthApp - Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/perfil.css">
+</head>
+<body>
+    <!-- Navbar Responsiva -->
+    <header class="navbar">
+        <div class="nav-brand">
+            <i class="fa-solid fa-user-lock logo"></i>
+            <span class="logo-text">AuthApp</span>
+        </div>
+        <div class="nav-user-actions">
+            <span id="nav-saudacao" class="nav-saudacao"></span>
+            <button id="btn-logout" class="btn-logout" type="button" aria-label="Encerrar sessão">
+                <span>Sair</span>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="perfil-container">
+        <div id="mensagem-feedback" class="feedback-message" style="display: none;"></div>
+
+        <div class="perfil-wrapper">
+            <!-- Coluna 1: Dados do Usuário & Ação Destrutiva -->
+            <aside class="perfil-sidebar">
+                <div class="card-usuario">
+                    <div class="avatar-circle">
+                        <span id="avatar-iniciais">--</span>
+                    </div>
+                    <h1 id="display-nome" class="usuario-nome">Carregando...</h1>
+                    <p id="display-email" class="usuario-email">---</p>
+                    <div class="status-badge">
+                        <span class="status-dot"></span>
+                        <span id="display-status">Conta Ativa</span>
+                    </div>
+                </div>
+
+                <div class="card-exclusao">
+                    <h3 class="danger-titulo">Zona de Perigo</h3>
+                    <p class="danger-descricao">Deseja encerrar sua conta permanentemente?</p>
+                    <button type="button" id="btn-excluir" class="btn-danger">
+                        Excluir minha conta
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Coluna 2: Formulário de Atualização -->
+            <section class="card-editar-perfil">
+                <h2 class="card-titulo">Editar Perfil</h2>
+                <form id="form-editar-perfil">
+                    <div class="field">
+                        <label for="input-nome" class="text-field">Nome completo</label>
+                        <input 
+                            type="text" 
+                            id="input-nome" 
+                            name="nome" 
+                            placeholder="Seu nome completo" 
+                            autocomplete="name" 
+                            required
+                        >
+                    </div>
+
+                    <div class="field">
+                        <label for="input-email" class="text-field">E-mail</label>
+                        <input 
+                            type="email" 
+                            id="input-email" 
+                            name="email" 
+                            placeholder="seu@email.com" 
+                            disabled
+                        >
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="btn-salvar">
+                        Salvar alterações
+                    </button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script type="module" src="js/pages/perfil.js"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/perfil.css">
 </head>
 <body>
-    <!-- Navbar Responsiva -->
+    <!-- Navbar limpa e alinhada ao protótipo -->
     <header class="navbar">
         <div class="nav-brand">
             <i class="fa-solid fa-user-lock logo"></i>
@@ -25,33 +25,35 @@
     </header>
 
     <main class="perfil-container">
+        <!-- Container de Alertas e Feedbacks -->
         <div id="mensagem-feedback" class="feedback-message" style="display: none;"></div>
 
         <div class="perfil-wrapper">
-            <!-- Coluna 1: Dados do Usuário & Ação Destrutiva -->
+            <!-- Bloco 1: Card de Apresentação / Sidebar no Desktop -->
             <aside class="perfil-sidebar">
-                <div class="card-usuario">
+                <section class="card-usuario">
                     <div class="avatar-circle">
-                        <span id="avatar-iniciais">--</span>
+                        <span id="avatar-iniciais">GL</span>
                     </div>
                     <h1 id="display-nome" class="usuario-nome">Carregando...</h1>
-                    <p id="display-email" class="usuario-email">---</p>
+                    <p id="display-email" class="usuario-email">carregando@email.com</p>
                     <div class="status-badge">
                         <span class="status-dot"></span>
                         <span id="display-status">Conta Ativa</span>
                     </div>
-                </div>
+                </section>
 
-                <div class="card-exclusao">
+                <!-- Zona de Perigo (Integrada à sidebar no desktop) -->
+                <section class="card-exclusao">
                     <h3 class="danger-titulo">Zona de Perigo</h3>
                     <p class="danger-descricao">Deseja encerrar sua conta permanentemente?</p>
                     <button type="button" id="btn-excluir" class="btn-danger">
                         Excluir minha conta
                     </button>
-                </div>
+                </section>
             </aside>
 
-            <!-- Coluna 2: Formulário de Atualização -->
+            <!-- Bloco 2: Formulário de Edição -->
             <section class="card-editar-perfil">
                 <h2 class="card-titulo">Editar Perfil</h2>
                 <form id="form-editar-perfil">

@@ -1,0 +1,358 @@
+@import url('global.css');
+
+/* ==========================================================================
+   Layout Base & Reset
+   ========================================================================== */
+body {
+    min-height: 100vh;
+    background-color: var(--bg-main, #0F172A);
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================================
+   Navbar Superior
+   ========================================================================== */
+.navbar {
+    width: 100%;
+    background-color: var(--bg-main, #0F172A);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-brand .logo {
+    color: var(--primary-blue, #2563EB);
+    font-size: 1.25rem;
+}
+
+.nav-brand .logo-text {
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: #FFFFFF;
+}
+
+.nav-user-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-saudacao {
+    display: none;
+    font-size: 0.85rem;
+    color: var(--text-secondary, #94A3B8);
+}
+
+.btn-logout {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary, #94A3B8);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-logout:hover {
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ==========================================================================
+   Container Geral (Mobile-First)
+   ========================================================================== */
+.perfil-container {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+}
+
+.feedback-message {
+    width: 100%;
+    max-width: 420px;
+    margin-bottom: 1rem;
+}
+
+.perfil-wrapper {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.perfil-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+/* ==========================================================================
+   Card 1: Identificação do Usuário
+   ========================================================================== */
+.card-usuario {
+    background-color: var(--bg-card, #1E293B);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.avatar-circle {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: #0F172A;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.85rem;
+}
+
+#avatar-iniciais {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+}
+
+.usuario-nome {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 0.2rem;
+}
+
+.usuario-email {
+    font-size: 0.8rem;
+    color: var(--text-secondary, #94A3B8);
+    margin-bottom: 0.85rem;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background-color: rgba(16, 185, 129, 0.12);
+    color: #10B981;
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: 999px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+    background-color: #10B981;
+    border-radius: 50%;
+}
+
+/* ==========================================================================
+   Card 2: Formulário de Edição
+   ========================================================================== */
+.card-editar-perfil {
+    background-color: var(--bg-card, #1E293B);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 1.5rem 1.25rem;
+}
+
+.card-titulo {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 1.25rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.text-field {
+    color: var(--text-secondary, #94A3B8);
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 0.35rem;
+}
+
+.field input {
+    width: 100%;
+    background-color: var(--bg-input, #0F172A);
+    color: #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.7rem 0.85rem;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+    border-color: var(--primary-blue, #2563EB);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.field input:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    width: 100%;
+    background-color: var(--primary-blue, #2563EB);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 8px;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 0.35rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-blue-hover, #1D4ED8);
+}
+
+.btn-primary:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ==========================================================================
+   Card 3: Zona de Perigo (Mobile)
+   ========================================================================== */
+.card-exclusao {
+    background-color: var(--bg-card, #1E293B);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    padding: 1.25rem 1rem;
+    text-align: center;
+}
+
+.danger-titulo {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #EF4444;
+    margin-bottom: 0.25rem;
+}
+
+.danger-descricao {
+    font-size: 0.75rem;
+    color: var(--text-secondary, #94A3B8);
+    margin-bottom: 0.85rem;
+}
+
+.btn-danger {
+    width: 100%;
+    background-color: transparent;
+    color: #EF4444;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    border-radius: 8px;
+    padding: 0.65rem;
+    font-size: 0.825rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+    background-color: rgba(239, 68, 68, 0.12);
+    border-color: #EF4444;
+}
+
+/* ==========================================================================
+   Layout Desktop (>= 860px) - Unificação Fiel ao Figma
+   ========================================================================== */
+@media (min-width: 860px) {
+    .navbar {
+        padding: 1.25rem 2.5rem;
+    }
+
+    .nav-saudacao {
+        display: inline-block;
+    }
+
+    .perfil-container {
+        justify-content: center;
+        padding: 2.5rem 1rem;
+    }
+
+    .perfil-wrapper {
+        max-width: 860px;
+        flex-direction: row;
+        background-color: var(--bg-card, #1E293B);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 2.5rem;
+        gap: 3rem;
+        align-items: center;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .perfil-sidebar {
+        flex: 1;
+        align-items: center;
+    }
+
+    .card-usuario {
+        background: transparent;
+        border: none;
+        padding: 0;
+    }
+
+    .avatar-circle {
+        width: 84px;
+        height: 84px;
+    }
+
+    .card-exclusao {
+        background: transparent;
+        border: none;
+        padding: 1.25rem 0 0 0;
+        width: 100%;
+        max-width: 240px;
+    }
+
+    .danger-titulo, 
+    .danger-descricao {
+        display: none; /* No frame Desktop do Figma, exibe diretamente o botão */
+    }
+
+    .card-editar-perfil {
+        flex: 1.3;
+        background: transparent;
+        border: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 0;
+        padding: 0 0 0 3rem;
+    }
+}

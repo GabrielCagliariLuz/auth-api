@@ -1,7 +1,14 @@
 import { authStorage } from '../utils/auth.js';
 
-const API_BASE_URL = 'http://localhost:8080';
+const isLocalhost = Boolean(
+    window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1'
+);
 
+const API_BASE_URL = isLocalhost 
+    ? 'http://localhost:8080' 
+    : 'https://auth-api-yvqt.onrender.com';
+    
 export async function request(endpoint, options = {}) {
     const token = authStorage.obterToken();
 

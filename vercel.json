@@ -1,4 +1,18 @@
 {
   "outputDirectory": "frontend",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/frontend/index.html"
+    },
+    {
+      "source": "/cadastro",
+      "destination": "/frontend/cadastro.html"
+    },
+    {
+      "source": "/perfil",
+      "destination": "/frontend/perfil.html"
+    }
+  ]
 }

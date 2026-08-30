@@ -8,7 +8,7 @@ const isLocalhost = Boolean(
 const API_BASE_URL = isLocalhost 
     ? 'http://localhost:8080' 
     : 'https://auth-api-yvqt.onrender.com';
-    
+
 export async function request(endpoint, options = {}) {
     const token = authStorage.obterToken();
 
@@ -30,7 +30,6 @@ export async function request(endpoint, options = {}) {
     try {
         const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
-        // Retorno 204 (No Content) comum em DELETE/PUT
         if (response.status === 204) {
             return null;
         }
@@ -38,10 +37,16 @@ export async function request(endpoint, options = {}) {
         const data = await response.json().catch(() => null);
 
         if (!response.ok) {
-            // Sessão inválida ou expirada em rotas privadas
             if (response.status === 401 || response.status === 403) {
                 authStorage.limparSessao();
-                if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('cadastro.html')) {
+                
+                // Trata tanto rotas tradicionais (.html) quanto clean URLs da Vercel
+                const path = window.location.pathname.toLowerCase();
+                const isRotaPublica = path === '/' || 
+                                      path.includes('index') || 
+                                      path.includes('cadastro');
+
+                if (!isRotaPublica) {
                     window.location.href = './index.html';
                 }
             }
@@ -52,6 +57,10 @@ export async function request(endpoint, options = {}) {
 
         return data;
     } catch (error) {
+        // Intercepta queda de conexão ou cold start da JVM no Render
+        if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+            throw new Error('Serviço temporariamente indisponível. A API pode estar acordando na nuvem, tente novamente em 30 segundos.');
+        }
         throw error;
     }
 }

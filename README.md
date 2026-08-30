@@ -4,7 +4,7 @@ Aplicação Full Stack desenvolvida para consolidar conceitos fundamentais de de
 
 ---
 
-## 🌐 Acesse a Aplicação
+## Acesse a Aplicação
 
 * **Frontend em Produção:** [auth-app-nine-psi.vercel.app](https://auth-app-nine-psi.vercel.app)
 * **Backend API (Render):** `https://auth-api-yvqt.onrender.com`
@@ -14,7 +14,7 @@ Aplicação Full Stack desenvolvida para consolidar conceitos fundamentais de de
 
 ---
 
-## 🎯 O que o sistema faz
+## O que o sistema faz
 
 * **Cadastro de Usuários:** Registro com validação de campos obrigatórios e confirmação de senha.
 * **Autenticação Segura:** Login via e-mail e senha com geração de token JWT assinado digitalmente.
@@ -24,7 +24,7 @@ Aplicação Full Stack desenvolvida para consolidar conceitos fundamentais de de
 
 ---
 
-## 🛠️ Tecnologias e Ferramentas
+## Tecnologias e Ferramentas
 
 **Backend**
 * **Java 21 & Spring Boot 3:** Construção da API RESTful estruturada em camadas (Controllers, Services, Repositories e DTOs).
@@ -45,7 +45,7 @@ Aplicação Full Stack desenvolvida para consolidar conceitos fundamentais de de
 
 ---
 
-## 📐 Fluxo de Dados e Segurança
+## Fluxo de Dados e Segurança
 
 ```text
 [ Navegador / Cliente ]
@@ -66,7 +66,7 @@ Aplicação Full Stack desenvolvida para consolidar conceitos fundamentais de de
         │
         └── 6. SecurityFilter valida o token e libera acesso aos dados cadastrais
  ```
-## 👨‍💻 Autor
+## Autor
 Desenvolvido por Gabriel Cagliari Luz
 
 Estudante de Engenharia de Software - PUCRS

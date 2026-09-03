@@ -1,62 +1,122 @@
-/**
- * Utilitários desacoplados para exibição de feedbacks e estados de validação
- */
+import { request } from '../services/api.js';
+import { authStorage } from '../utils/auth.js';
+import {
+    exibirMensagem,
+    limparMensagem,
+    marcarCampoErro,
+    limparCampoErro,
+    monitorarLimpezaDeErros
+} from '../utils/alerts.js';
 
-export function exibirMensagem(elementoAlvo, texto, tipo = 'erro') {
-    if (!elementoAlvo) return;
+// Route Guard: Redireciona para o perfil caso já exista sessão ativa
+authStorage.redirecionarSeAutenticado();
 
-    elementoAlvo.textContent = texto;
-    elementoAlvo.style.display = 'block';
-    elementoAlvo.style.padding = '0.75rem 1rem';
-    elementoAlvo.style.marginBottom = '1.25rem';
-    elementoAlvo.style.borderRadius = '8px';
-    elementoAlvo.style.fontSize = '0.875rem';
-    elementoAlvo.style.textAlign = 'center';
+// Seleção de Nós do DOM
+const formLogin = document.getElementById('form-login');
+const inputEmail = document.getElementById('email');
+const inputSenha = document.getElementById('senha');
+const feedbackContainer = document.getElementById('mensagem-feedback');
+const btnSubmit = formLogin ? formLogin.querySelector('button[type="submit"]') : null;
 
-    if (tipo === 'erro') {
-        elementoAlvo.style.backgroundColor = '#EF4444';
-        elementoAlvo.style.color = '#FFFFFF';
-        elementoAlvo.style.border = '1px solid rgba(239, 68, 68, 0.3)';
-    } else {
-        elementoAlvo.style.backgroundColor = '#10B981';
-        elementoAlvo.style.color = '#ffffff';
-        elementoAlvo.style.border = '1px solid rgba(16, 185, 129, 0.3)';
-    }
-}
-
-export function limparMensagem(elementoAlvo) {
-    if (!elementoAlvo) return;
-    elementoAlvo.textContent = '';
-    elementoAlvo.style.display = 'none';
+// Ativa a limpeza reativa da borda vermelha ao digitar
+if (inputEmail && inputSenha) {
+    monitorarLimpezaDeErros([inputEmail, inputSenha]);
 }
 
 /**
- * Destaca visualmente um elemento input aplicando a classe de erro CSS
+ * Alternador de Visibilidade de Senha
  */
-export function marcarCampoErro(inputElement) {
-    if (!inputElement) return;
-    inputElement.classList.add('input-error');
+function setupTogglePassword(toggleIconId, inputId) {
+    const toggleIcon = document.getElementById(toggleIconId);
+    const input = document.getElementById(inputId);
+
+    if (!toggleIcon || !input) return;
+
+    toggleIcon.addEventListener('click', () => {
+        const isPassword = input.type === 'password';
+        input.type = isPassword ? 'text' : 'password';
+
+        toggleIcon.classList.toggle('fa-eye-slash', !isPassword);
+        toggleIcon.classList.toggle('fa-eye', isPassword);
+    });
 }
+setupTogglePassword('toggle-senha', 'senha');
 
 /**
- * Remove o destaque visual de erro de um input
+ * Handler de Submissão do Formulário de Autenticação
  */
-export function limparCampoErro(inputElement) {
-    if (!inputElement) return;
-    inputElement.classList.remove('input-error');
-}
+if (formLogin) {
+    formLogin.addEventListener('submit', async (event) => {
+        // Interrompe o reload tradicional do navegador e evita vazamento de dados via GET
+        event.preventDefault();
+        limparMensagem(feedbackContainer);
 
-/**
- * Adiciona listeners nos inputs informados para remover a borda vermelha
- * em tempo real assim que o usuário digita qualquer caractere válido
- */
-export function monitorarLimpezaDeErros(inputs = []) {
-    inputs.forEach((input) => {
-        if (!input) return;
-        input.addEventListener('input', () => {
-            if (input.value.trim() !== '') {
-                limparCampoErro(input);
+        const email = inputEmail ? inputEmail.value.trim() : '';
+        const senha = inputSenha ? inputSenha.value : '';
+
+        let possuiErroValidacao = false;
+
+        // 1. Validação Fail-Fast Client-Side
+        if (!email) {
+            marcarCampoErro(inputEmail);
+            possuiErroValidacao = true;
+        } else {
+            limparCampoErro(inputEmail);
+        }
+
+        if (!senha) {
+            marcarCampoErro(inputSenha);
+            possuiErroValidacao = true;
+        } else {
+            limparCampoErro(inputSenha);
+        }
+
+        if (possuiErroValidacao) {
+            exibirMensagem(feedbackContainer, 'Preencha todos os campos obrigatórios.', 'erro');
+            return;
+        }
+
+        // 2. Bloqueio de UI contra múltiplos disparos (Loading State)
+        const textoOriginal = btnSubmit ? btnSubmit.textContent : 'Entrar';
+        if (btnSubmit) {
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Entrando...';
+        }
+
+        try {
+            // 3. Consumo da API Backend (Spring Boot)
+            const response = await request('/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, senha })
+            });
+
+            // Persiste JWT e dados no LocalStorage
+            authStorage.salvarSessao(response.token, response.usuario);
+            exibirMensagem(feedbackContainer, 'Login realizado com sucesso! Redirecionando...', 'sucesso');
+
+            // Redirecionamento após feedback visual
+            setTimeout(() => {
+                window.location.href = './perfil.html';
+            }, 1000);
+
+        } catch (error) {
+            const isCredencialInvalida = error.message.includes('401') || error.message.includes('403');
+
+            if (isCredencialInvalida) {
+                marcarCampoErro(inputEmail);
+                marcarCampoErro(inputSenha);
             }
-        });
+
+            const mensagemExibicao = isCredencialInvalida
+                ? 'E-mail ou senha incorretos.'
+                : (error.message || 'Erro ao realizar login. Tente novamente.');
+
+            exibirMensagem(feedbackContainer, mensagemExibicao, 'erro');
+        } finally {
+            if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = textoOriginal;
+            }
+        }
     });
 }

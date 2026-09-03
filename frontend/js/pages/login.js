@@ -1,66 +1,62 @@
-import { request } from '../services/api.js';
-import { authStorage } from '../utils/auth.js';
-import { exibirMensagem, limparMensagem } from '../utils/alerts.js';
+/**
+ * Utilitários desacoplados para exibição de feedbacks e estados de validação
+ */
 
-authStorage.redirecionarSeAutenticado();
+export function exibirMensagem(elementoAlvo, texto, tipo = 'erro') {
+    if (!elementoAlvo) return;
 
-const formLogin = document.getElementById('form-login');
-const btnSubmit = formLogin.querySelector('button[type="submit"]');
-const feedbackContainer = document.getElementById('mensagem-feedback');
+    elementoAlvo.textContent = texto;
+    elementoAlvo.style.display = 'block';
+    elementoAlvo.style.padding = '0.75rem 1rem';
+    elementoAlvo.style.marginBottom = '1.25rem';
+    elementoAlvo.style.borderRadius = '8px';
+    elementoAlvo.style.fontSize = '0.875rem';
+    elementoAlvo.style.textAlign = 'center';
 
-function setupTogglePassword(toggleIconId, inputId) {
-    const toggleIcon = document.getElementById(toggleIconId);
-    const input = document.getElementById(inputId);
+    if (tipo === 'erro') {
+        elementoAlvo.style.backgroundColor = '#EF4444';
+        elementoAlvo.style.color = '#FFFFFF';
+        elementoAlvo.style.border = '1px solid rgba(239, 68, 68, 0.3)';
+    } else {
+        elementoAlvo.style.backgroundColor = '#10B981';
+        elementoAlvo.style.color = '#ffffff';
+        elementoAlvo.style.border = '1px solid rgba(16, 185, 129, 0.3)';
+    }
+}
 
-    if(!toggleIcon || !input) return;
+export function limparMensagem(elementoAlvo) {
+    if (!elementoAlvo) return;
+    elementoAlvo.textContent = '';
+    elementoAlvo.style.display = 'none';
+}
 
-    toggleIcon.addEventListener('click', () => {
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
+/**
+ * Destaca visualmente um elemento input aplicando a classe de erro CSS
+ */
+export function marcarCampoErro(inputElement) {
+    if (!inputElement) return;
+    inputElement.classList.add('input-error');
+}
 
-       if (isPassword) {
-            toggleIcon.classList.remove('fa-eye-slash');
-            toggleIcon.classList.add('fa-eye');
-        } else {
-            toggleIcon.classList.remove('fa-eye');
-            toggleIcon.classList.add('fa-eye-slash');
-        }
+/**
+ * Remove o destaque visual de erro de um input
+ */
+export function limparCampoErro(inputElement) {
+    if (!inputElement) return;
+    inputElement.classList.remove('input-error');
+}
+
+/**
+ * Adiciona listeners nos inputs informados para remover a borda vermelha
+ * em tempo real assim que o usuário digita qualquer caractere válido
+ */
+export function monitorarLimpezaDeErros(inputs = []) {
+    inputs.forEach((input) => {
+        if (!input) return;
+        input.addEventListener('input', () => {
+            if (input.value.trim() !== '') {
+                limparCampoErro(input);
+            }
+        });
     });
 }
-setupTogglePassword('toggle-senha', 'senha');
-
-formLogin.addEventListener('submit', async (event) =>{
-    event.preventDefault();
-    limparMensagem(feedbackContainer);
-
-    const email = document.getElementById('email').value.trim();
-    const senha = document.getElementById('senha').value;
-
-    btnSubmit.disabled = true;
-    const textoOriginal = btnSubmit.textContent;
-    btnSubmit.textContent = 'Entrando...';
-
-    try{
-        const response = await request('/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, senha })
-        });
-        authStorage.salvarSessao(response.token, response.usuario);
-
-        exibirMensagem(feedbackContainer, 'Login realizado com sucesso! Redirecionando...', 'sucesso');
-
-        setTimeout(() => {
-            window.location.href = './perfil.html';
-        }, 1000);
-
-    } catch (error) {
-        const mensagem = error.message.includes('401') || error.message.includes('403')
-        ? 'E-mail ou senha incorretos.'
-        :(error.message || 'Erro ao realizar login. Tente novamente.')
-
-        exibirMensagem(feedbackContainer, mensagem, 'erro');
-    } finally {
-        btnSubmit.disabled = false;
-        btnSubmit.textContent = textoOriginal;
-    }
-});

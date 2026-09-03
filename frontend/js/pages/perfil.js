@@ -1,30 +1,36 @@
 import { request } from '../services/api.js';
 import { authStorage } from '../utils/auth.js';
-import { exibirMensagem, limparMensagem } from '../utils/alerts.js';
+import {
+    exibirMensagem,
+    limparMensagem,
+    marcarCampoErro,
+    limparCampoErro,
+    monitorarLimpezaDeErros
+} from '../utils/alerts.js';
 
 // 1. Route Guard: Bloqueia acesso sem credenciais ativas
 authStorage.protegerRota();
 
-// Elementos de Apresentação e Feedback
+// Elementos de Apresentação e Feedback[cite: 18]
 const feedbackContainer = document.getElementById('mensagem-feedback');
 const displayNome = document.getElementById('display-nome');
 const displayEmail = document.getElementById('display-email');
 const avatarIniciais = document.getElementById('avatar-iniciais');
 const navSaudacao = document.getElementById('nav-saudacao');
 
-// Formulário de Edição
+// Formulário de Edição[cite: 18]
 const formEditarPerfil = document.getElementById('form-editar-perfil');
 const inputNome = document.getElementById('input-nome');
 const inputEmail = document.getElementById('input-email');
 const btnSalvar = document.getElementById('btn-salvar');
 
-// Ações Globais
+// Ações Globais[cite: 18]
 const btnExcluir = document.getElementById('btn-excluir');
 const btnLogout = document.getElementById('btn-logout');
 
-/**
- * Extrai as iniciais do nome para o avatar (ex: "Gabriel Cagliari Luz" -> "GL")
- */
+// Limpeza reativa ao digitar
+monitorarLimpezaDeErros([inputNome]);
+
 function extrairIniciais(nome) {
     if (!nome) return '--';
     const partes = nome.trim().split(/\s+/);
@@ -32,9 +38,6 @@ function extrairIniciais(nome) {
     return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
 }
 
-/**
- * Atualiza o DOM e a barra de navegação com os dados mais recentes
- */
 function renderizarPerfil(usuario) {
     if (!usuario) return;
 
@@ -51,9 +54,6 @@ function renderizarPerfil(usuario) {
     inputEmail.value = usuario.email || '';
 }
 
-/**
- * Busca o estado sincronizado do usuário diretamente no banco via GET /usuarios/{id}
- */
 async function inicializarDados() {
     const usuarioSessao = authStorage.obterUsuario();
 
@@ -63,7 +63,6 @@ async function inicializarDados() {
         return;
     }
 
-    // Hidratação rápida com dados em cache local
     renderizarPerfil(usuarioSessao);
 
     try {
@@ -75,8 +74,8 @@ async function inicializarDados() {
         renderizarPerfil(dadosAtualizados);
     } catch (error) {
         exibirMensagem(
-            feedbackContainer, 
-            error.message || 'Não foi possível carregar os dados mais recentes.', 
+            feedbackContainer,
+            error.message || 'Não foi possível carregar os dados mais recentes.',
             'erro'
         );
     }
@@ -85,7 +84,7 @@ async function inicializarDados() {
 inicializarDados();
 
 /**
- * Submissão do Formulário: Atualização de Nome (PUT /usuarios/{id})
+ * Submissão do Formulário: Atualização de Nome (PUT /usuarios/{id})[cite: 18]
  */
 formEditarPerfil.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -93,6 +92,15 @@ formEditarPerfil.addEventListener('submit', async (event) => {
 
     const usuario = authStorage.obterUsuario();
     const novoNome = inputNome.value.trim();
+
+    // Validação Client-Side: Campo obrigatório[cite: 18]
+    if (!novoNome) {
+        marcarCampoErro(inputNome);
+        exibirMensagem(feedbackContainer, 'O nome não pode ficar em branco.', 'erro');
+        return;
+    }
+
+    limparCampoErro(inputNome);
 
     if (novoNome === usuario.nome) {
         exibirMensagem(feedbackContainer, 'Nenhuma alteração detectada.', 'erro');
@@ -104,7 +112,6 @@ formEditarPerfil.addEventListener('submit', async (event) => {
     btnSalvar.textContent = 'Salvando...';
 
     try {
-        // Envia apenas os dados mutáveis conforme DTO de entrada
         const usuarioAtualizado = await request(`/usuarios/${usuario.id}`, {
             method: 'PUT',
             body: JSON.stringify({ nome: novoNome })
@@ -115,6 +122,7 @@ formEditarPerfil.addEventListener('submit', async (event) => {
 
         exibirMensagem(feedbackContainer, 'Perfil atualizado com sucesso!', 'sucesso');
     } catch (error) {
+        marcarCampoErro(inputNome);
         exibirMensagem(feedbackContainer, error.message || 'Erro ao atualizar o perfil.', 'erro');
     } finally {
         btnSalvar.disabled = false;
@@ -123,7 +131,7 @@ formEditarPerfil.addEventListener('submit', async (event) => {
 });
 
 /**
- * Exclusão Lógica de Conta (DELETE /usuarios/{id})
+ * Exclusão de Conta (DELETE /usuarios/{id})[cite: 18]
  */
 btnExcluir.addEventListener('click', async () => {
     const confirmou = window.confirm(
@@ -151,7 +159,7 @@ btnExcluir.addEventListener('click', async () => {
 });
 
 /**
- * Encerramento de Sessão
+ * Encerramento de Sessão[cite: 18]
  */
 btnLogout.addEventListener('click', () => {
     authStorage.limparSessao();

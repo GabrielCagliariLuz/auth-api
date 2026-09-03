@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/auth.css">
 </head>
+
 <body>
     <header class="header">
         <div class="logo-container">
@@ -24,30 +26,18 @@
         <div id="mensagem-feedback" class="feedback-message" style="display: none;"></div>
 
         <div class="form-card">
-            <form id="form-login">
+            <form id="form-login" novalidate>
                 <div class="field email">
                     <label for="email" class="text-field">E-mail</label>
-                    <input 
-                        type="email" 
-                        id="email"
-                        name="email" 
-                        placeholder="seu@email.com" 
-                        autocomplete="email"
-                        required    
-                    >
+                    <input type="email" id="email" name="email" placeholder="seu@email.com" autocomplete="email"
+                        required>
                 </div>
 
                 <div class="field password-field">
                     <label for="senha" class="text-field">Senha</label>
                     <div class="input-wrapper">
-                        <input
-                            type="password"
-                            id="senha"
-                            name="senha"
-                            placeholder="Mínimo 6 caracteres"
-                            minlength="6"
-                            required
-                        >
+                        <input type="password" id="senha" name="senha" placeholder="Mínimo 6 caracteres" minlength="6"
+                            required>
                         <i class="fa-solid fa-eye-slash toggle-password" id="toggle-senha"></i>
                     </div>
                 </div>
@@ -63,4 +53,5 @@
 
     <script type="module" src="js/pages/login.js"></script>
 </body>
+
 </html>

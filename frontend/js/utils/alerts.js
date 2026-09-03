@@ -1,5 +1,5 @@
 export function exibirMensagem(elementoAlvo, texto, tipo = 'erro') {
-    if (!elementoAlvo) return; 
+    if (!elementoAlvo) return;
 
     elementoAlvo.textContent = texto;
     elementoAlvo.style.display = 'block';
@@ -24,4 +24,35 @@ export function limparMensagem(elementoAlvo) {
     if (!elementoAlvo) return;
     elementoAlvo.textContent = '';
     elementoAlvo.style.display = 'none';
+}
+
+/**
+ * Destaca visualmente um elemento input aplicando a classe de erro CSS
+ */
+export function marcarCampoErro(inputElement) {
+    if (!inputElement) return;
+    inputElement.classList.add('input-error');
+}
+
+/**
+ * Remove o destaque visual de erro de um input
+ */
+export function limparCampoErro(inputElement) {
+    if (!inputElement) return;
+    inputElement.classList.remove('input-error');
+}
+
+/**
+ * Adiciona listeners nos inputs informados para remover a borda vermelha
+ * em tempo real assim que o usuário digita qualquer caractere válido
+ */
+export function monitorarLimpezaDeErros(inputs = []) {
+    inputs.forEach((input) => {
+        if (!input) return;
+        input.addEventListener('input', () => {
+            if (input.value.trim() !== '') {
+                limparCampoErro(input);
+            }
+        });
+    });
 }
